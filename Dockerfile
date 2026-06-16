@@ -92,10 +92,10 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu-snapshot:2025-06-16
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu-snapshot:latest
-#docker push alexberkovich/ubuntu-snapshot:2025-06-16
-#docker push alexberkovich/ubuntu-snapshot:latest
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2025-06-16
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
+#docker push alexberkovich/ubuntu2404-snapshot:2025-06-16
+#docker push alexberkovich/ubuntu2404-snapshot:latest
 
 
 # Delete all containers
