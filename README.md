@@ -38,3 +38,9 @@ To avoid permission decoherence between the Host OS and the Docker runtime (espe
    docker logs ubuntu-i | grep -E 'Hello'
 
    ```
+
+There are published docker images in Dockerhub.
+
+   ```bash
+   docker pull alexberkovich/ubuntu2404-snapshot:latest
+   ```
