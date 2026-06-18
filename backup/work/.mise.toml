@@ -9,11 +9,15 @@ uv = "0.11.21"
 "npm:yaml-language-server" = "1.23.0" 
 "npm:eslint" = "10.5.0"
 #ruff = "0.15.17"
+"github:google-antigravity/antigravity-cli" = "1.0.9"
 
 [env]
+# Tell mise to explicitly read variables from the local .env file
+_.file = ".env"
+ELECTRON_ENABLE_LOGGING="1"
+#ANTIGRAVITY_API_KEY="XXXX"
 # Your Git settings
-GIT_TOKEN = "ghp_XXXX"
-GIT_USER = "alex-ber"
+#GIT_TOKEN = "ghp_XXXX"
 GIT_CONFIG_COUNT = "2"
 GIT_CONFIG_KEY_0 = "url.https://${GIT_USER}:${GIT_TOKEN}@github.com/.insteadOf"
 GIT_CONFIG_VALUE_0 = "https://github.com/"
@@ -21,9 +25,12 @@ GIT_CONFIG_KEY_1 = "url.https://${GIT_USER}:${GIT_TOKEN}@gist.github.com/.instea
 GIT_CONFIG_VALUE_1 = "https://gist.github.com/"
 
 
-
 # Adding local binary paths to PATH so that Kate can see them
 _.path = [
   "./node_modules/.bin",
   "./.venv/bin"
 ]
+
+[tasks.antigravity-ide]
+description = "Launch Antigravity IDE in current context"
+run = "./antigravity-ide/bin/antigravity-ide --no-sandbox"
