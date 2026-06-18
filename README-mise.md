@@ -14,6 +14,11 @@
 
 If you there are problems (e.g., if your internet disconnects while downloading uv, the archive becomes corrupted, and mise install gives an unpacking error) you can use `mise cache clear`. Under normal workflow, you don't need to use this command.
 
+# First aid
+
+You can call `mise reshim` manually as a "first aid" if you installed a tool but get command not found when typing its command in the terminal (e.g., this sometimes happens if you install a global CLI package via npm -g or pip, and mise hasn't had a chance to rebuild shims for the new binaries). But typically since when you're working via shims the mise install command automatically creates and updates shims for new tools, so in 99% cases mise reshimis not needed.
+
+
 
 # If You Specifically Want to Fix `mise`
 
