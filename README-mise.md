@@ -10,6 +10,9 @@
 | `mise ls uv` | Check which version of uv is currently in use and where it is configured. |
 | `mise list` | List all currently installed utilities. |
 
+# Clearing cache
+
+If you there are problems (e.g., if your internet disconnects while downloading uv, the archive becomes corrupted, and mise install gives an unpacking error) you can use `mise cache clear`. Under normal workflow, you don't need to use this command.
 
 
 # If You Specifically Want to Fix `mise`
