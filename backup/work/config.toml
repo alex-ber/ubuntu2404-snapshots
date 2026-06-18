@@ -6,3 +6,4 @@ env_shell_expand = true
 
 
 [env]
+ELECTRON_ENABLE_LOGGING="1"
