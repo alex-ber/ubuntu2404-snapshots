@@ -1,6 +1,6 @@
 ---
 name: create_python_uv_project
-description: Scaffolds a new Python TUI project using the standard boilerplate (uv, hatchling, Docker, docker-compose).
+description: Scaffolds a new Python project using the standard boilerplate (uv, hatchling, Docker, docker-compose).
 ---
 
 # Instructions
@@ -17,7 +17,7 @@ When the user asks you to create a new project based on the standard boilerplate
     [project]
     name = "<project_name>"
     dynamic = ["version"]
-    description = "A new Python project. Extendable via MCP"
+    description = "A new Python project."
     requires-python = ">=3.14.6"
     dependencies = []
 
@@ -33,7 +33,7 @@ When the user asks you to create a new project based on the standard boilerplate
     ```
 
 3.  **Source Files**:
-    Create `src/<project_name>/__init__.py` (optionally containing `__version__ = "0.0.1"`) and a main module (e.g., `main.py`).
+    Create `src/<project_name>/__init__.py` (containing `__version__ = "0.0.1"`) and a main module (e.g., `main.py`).
 
 4.  **Dockerfile**:
     Create a `Dockerfile` that uses `alexberkovich/ubuntu2404-snapshot:2025-06-16` and injects the `uv` compiler for deterministic dependency resolution:
@@ -89,7 +89,5 @@ When the user asks you to create a new project based on the standard boilerplate
     - `.gitignore`
     - `.gitattributes`
     - `.dockerinfo`
-    - `volumes-to-delete.txt`
 
-6.  **Setup Lockfile**:
-    Run `uv lock` (or `uv sync`) inside the new project directory to generate the `uv.lock` file so it can be used for Docker builds.
+
