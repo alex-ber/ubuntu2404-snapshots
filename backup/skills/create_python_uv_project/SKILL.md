@@ -80,7 +80,8 @@ When the user asks you to create a new project based on the standard boilerplate
 
 5.  **Environment and Config Files**:
     Copy the auxiliary files from the skill's `resources/` directory (`~/.gemini/config/skills/create_python_uv_project/resources/`) into the root of the new project:
-    - `env.example` (and copy it to `.env` as well)
+    - `env.example`
+    - `.env`
     - `docker-compose.yml`
     - `mise.toml`
     - `CHANGELOG.md`
@@ -89,5 +90,18 @@ When the user asks you to create a new project based on the standard boilerplate
     - `.gitignore`
     - `.gitattributes`
     - `.dockerinfo`
+    - `.devcontainer`
+    - `.vscode`
 
+6.  **Setup Lockfile**:
+    Run `uv lock` inside the new project directory to generate the `uv.lock` file.
+
+7.  **Initialize Git**:
+    Run the following commands in the project root:
+    ```bash
+    git init
+    git add .
+    git commit -m "Initital commit"
+    git remote add origin https://github.com/alex-ber/<project_name>.git
+    ```
 
