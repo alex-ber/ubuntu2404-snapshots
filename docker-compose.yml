@@ -188,10 +188,10 @@ services:
       - bash
       - -c
       - |
+        set -e
         echo "[*] Starting backup process..."
         mkdir -p ./backup
         chmod 755 ./backup
-        set -e
         
         cp ./backup-README.md ./backup/README.md
         cp /host_home/.gemini/antigravity-cli/settings.json ./backup/
