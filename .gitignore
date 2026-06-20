@@ -132,3 +132,6 @@ _scratch/
 # (Example: Always allow curated docs media)
 # !docs/**/*.png
 # !docs/**/*.jpg
+
+# Allow .env files in backup/skills
+!backup/skills/**/.env
