@@ -79,8 +79,8 @@ When the user asks you to create a new project based on the standard boilerplate
     ```
 
 5.  **Environment and Config Files**:
-    Add the following auxiliary files based on the boilerplate standards:
-    - `.env` and `env.example`
+    Copy the auxiliary files from the skill's `resources/` directory (`~/.gemini/config/skills/create_python_uv_project/resources/`) into the root of the new project:
+    - `env.example` (and copy it to `.env` as well)
     - `docker-compose.yml`
     - `mise.toml`
     - `CHANGELOG.md`
