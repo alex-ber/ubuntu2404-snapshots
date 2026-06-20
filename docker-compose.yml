@@ -192,13 +192,16 @@ services:
         echo "[*] Starting backup process..."
         mkdir -p ./backup
         chmod 755 ./backup
-        
+
         cp ./backup-README.md ./backup/README.md
         cp /host_home/.gemini/antigravity-cli/settings.json ./backup/
+        cp /host_home/.gemini/config/AGENTS.md ./backup/
+        rm -rf ./backup/skills
+        cp -r /host_home/.gemini/config/skills ./backup/
         cp /host_home/.config/mise/config.toml ./backup/
         cp /parent/.mise.toml ./backup/
         cp /parent/mise-app-launcher.sh ./backup/
-        
+
         echo "[+] Backup completed successfully!"
 
 

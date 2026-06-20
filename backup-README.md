@@ -55,3 +55,9 @@ For more detailed instructions and advanced usage, check out the full guide:
 
 👉 [Full article on Medium](https://alex-ber.medium.com/4d861cdd366c)
 ```
+
+Also we're copying global Antigravity configuration files:
+
+~/.gemini/antigravity-cli/settings.json 
+~/.gemini/config/AGENTS.md 
+~/.gemini/config/skills/
