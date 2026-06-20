@@ -120,8 +120,8 @@ services:
   # =========================================================
   # To regenerate uv.lock WITHOUT installing uv on the Host OS.
   # Run this service interactively and it will destroy itself after.
-  # Usage: dc run --rm update-lock
-  # Custom: docker compose run --rm update-uv-lock
+  # Default: docker compose run --rm update-uv-lock
+  # Custom:  docker compose run --rm update-uv-lock nano git
   # For debugging: docker compose run --rm --entrypoint bash update-uv-lock
 
   update-uv-lock:
@@ -158,6 +158,48 @@ services:
 
     # The exact command you want to execute statelessly
     command: ["uv", "lock"]
+
+  # =========================================================
+  # BACKUP DAEMON (Stateless Script Replacement)
+  # =========================================================
+  # Default: docker compose run --rm backup
+  # For debugging: docker compose run --rm --entrypoint bash backup
+  backup:
+    image: ubuntu@sha256:786a8b558f7be160c6c8c4a54f9a57274f3b4fb1491cf65146521ae77ff1dc54
+    working_dir: /app
+
+    # HARDWARE BRIDGE: Identity mapping
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    profiles:
+      - tools
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: bind
+        source: ${HOME}
+        target: /host_home
+        read_only: true
+      - type: bind
+        source: ../
+        target: /parent
+        read_only: true
+    entrypoint:
+      - bash
+      - -c
+      - |
+        echo "[*] Starting backup process..."
+        mkdir -p ./backup
+        chmod 755 ./backup
+        set -e
+        
+        cp ./backup-README.md ./backup/README.md
+        cp /host_home/.gemini/antigravity-cli/settings.json ./backup/
+        cp /host_home/.config/mise/config.toml ./backup/
+        cp /parent/.mise.toml ./backup/
+        cp /parent/mise-app-launcher.sh ./backup/
+        
+        echo "[+] Backup completed successfully!"
 
 
 #docker compose build --no-cache --progress=plain
