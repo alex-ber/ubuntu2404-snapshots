@@ -1,0 +1,14 @@
+{
+  "editor": "nano",
+  "enableTelemetry": false,
+  "model": "Gemini 3.1 Pro (High)",
+  "permissions": {
+    "allow": [
+      "command(git status)",
+      "command(git diff)",
+      "command(pwd)"
+    ]
+  },
+  "runningLightSpeed": "off",
+  "showFeedbackSurvey": false
+}
