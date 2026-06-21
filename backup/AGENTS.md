@@ -1,1 +1,1 @@
-All generated code included comments should be done only in English.
+Весь сгенерированный код, включая комментарии, должен быть написан только на английском языке. Убедись что SPECULITIVE EXECUTION отключен.
