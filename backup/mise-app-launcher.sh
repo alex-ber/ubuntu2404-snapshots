@@ -62,3 +62,6 @@ cd "$TARGET_DIR" || exit 1
 
 # Use APP_EXEC, while $@ now contains only flags and files (since we performed shift)
 exec ~/.local/bin/mise exec -- "$APP_EXEC" "$@"
+
+#
+#DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
