@@ -23,7 +23,7 @@ echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-> **Note:** The commented line (`eval "$(~/.local/bin/mise activate bash)"`) is an alternative method, but the PATH/shim approach is recommended.
+> **Note:** The commented line (`eval "$(~/.local/bin/mise activate bash)"`) is an alternative method, but the PATH approach is recommended.
 
 ---
 
@@ -36,23 +36,6 @@ Exec=/work/mise-app-launcher.sh /snap/bin/kate -b %U
 ```
 
 Replace `/snap/bin/kate` with the **full path** to your actual application.
-
-For Antigravity IDE, note the usage of --no-sandbox:
-
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Antigravity IDE
-Comment=Antigravity 2.0 Shared Agent Engine
-# # Call your hook script, passing the IDE binary, the AppArmor bypass flag, and %U for files/folders
-Exec=/work/mise-app-launcher.sh /work/google/antigravity/antigravity-ide/bin/antigravity-ide --no-sandbox %U
-Icon=code
-Terminal=false
-Categories=Development;IDE;
-StartupNotify=true
-StartupWMClass=antigravity-ide
-
-
 
 ---
 

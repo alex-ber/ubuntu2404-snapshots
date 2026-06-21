@@ -84,13 +84,15 @@ services:
         target: /app/.venv
 
       # Optional: If your app writes local logs or state files, you can map them securely:
+      ## Bind mount for logs:
+      ## Makes logs generated inside the container available on the host machine
       # - ./logs:/app/logs
       #- type: bind
       #  source: ./logs
       #  target: /app/logs
 
     # The CMD is already perfectly defined in your Dockerfile:
-    # CMD ["uv", "run", "python", "-m", "src.<project_name>.guess"]
+    # CMD ["uv", "run", "python", "-m", "src.<project_name>.run"]
     # So we don't need to override the `command` here unless you want a specific dev-mode execution.
 
 
