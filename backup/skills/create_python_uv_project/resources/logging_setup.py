@@ -108,7 +108,7 @@ def init_conf():
     # Configure rotating file handler
     # Rotates at midnight, keeps 10 backups, delays file creation until first log
     handler = TimedRotatingFileHandler(
-        filename="logs/tui-guess-the-number.log",
+        filename="logs/<project_name>.log",
         when="midnight",
         backupCount=10,
         delay=True,
