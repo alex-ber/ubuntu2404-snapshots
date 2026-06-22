@@ -22,6 +22,7 @@ wheels/
 # ----------------------------------
 # Logs
 # ----------------------------------
+logs/
 *.log
 
 # ----------------------------------
@@ -133,4 +134,4 @@ _scratch/
 # !docs/**/*.png
 # !docs/**/*.jpg
 
-src/<project_name>/__init__.py
+src/tui-guess-the-number/__init__.py

@@ -44,7 +44,7 @@ class StreamToLogger:
             self.buf = ""
 
 
-def init_conf():
+def initConf():
     """
     Initializes production-grade logging.
     Redirects all logs to a rotating file.
@@ -110,7 +110,7 @@ def init_conf():
     # Configure rotating file handler
     # Rotates at midnight, keeps 10 backups, delays file creation until first log
     handler = TimedRotatingFileHandler(
-        filename="logs/<project_name>",
+        filename="logs/<project_name>.log",
         when="midnight",
         backupCount=10,
         delay=True,
