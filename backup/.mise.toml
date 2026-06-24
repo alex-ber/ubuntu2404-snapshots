@@ -31,6 +31,4 @@ _.path = [
   "./.venv/bin"
 ]
 
-[tasks.antigravity-ide]
-description = "Launch Antigravity IDE in current context"
-run = "/work/google/antigravity/antigravity-ide/bin/antigravity-ide --no-sandbox"
+
