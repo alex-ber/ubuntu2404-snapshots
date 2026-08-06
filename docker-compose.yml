@@ -85,13 +85,13 @@ services:
 
   # Will be for ca-certificates
   # Default: docker compose run --rm get-pkg-version
-  # Custom:  docker compose run --rm get-pkg-version nano git
+  # Custom:  docker compose run --rm get-pkg-version nano git unzip curl wget xz-utils ffmpeg
   # For debugging: docker compose run --rm --entrypoint bash get-pkg-version
 
   get-pkg-version:
     # We use the floating tag here because the goal is to discover what's
     # currently available before locking the SHA in the Dockerfile.
-    image: ubuntu@sha256:786a8b558f7be160c6c8c4a54f9a57274f3b4fb1491cf65146521ae77ff1dc54
+    image: ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
     #image: ubuntu:24.04
 
     profiles:
@@ -121,7 +121,7 @@ services:
   # To regenerate uv.lock WITHOUT installing uv on the Host OS.
   # Run this service interactively and it will destroy itself after.
   # Default: docker compose run --rm update-uv-lock
-  # Custom:  docker compose run --rm update-uv-lock nano git
+  # Custom:  docker compose run --rm update-uv-lock nano git unzip curl wget xz-utils ffmpeg
   # For debugging: docker compose run --rm --entrypoint bash update-uv-lock
 
   update-uv-lock:
@@ -165,7 +165,7 @@ services:
   # Default: docker compose run --rm backup
   # For debugging: docker compose run --rm --entrypoint bash backup
   backup:
-    image: ubuntu@sha256:786a8b558f7be160c6c8c4a54f9a57274f3b4fb1491cf65146521ae77ff1dc54
+    image: ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
     working_dir: /app
 
     # HARDWARE BRIDGE: Identity mapping

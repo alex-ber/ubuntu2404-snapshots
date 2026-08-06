@@ -1,6 +1,6 @@
 [tools]
 node = "22"
-uv = "0.11.21"
+uv = "0.11.33"
 "npm:dockerfile-language-server-nodejs" = "0.15.0"
 "npm:pyright" = "1.1.410"
 "npm:typescript" = "5.5.2"
@@ -10,10 +10,22 @@ uv = "0.11.21"
 "npm:eslint" = "10.5.0"
 #ruff = "0.15.17"
 "github:google-antigravity/antigravity-cli" = "1.0.9"
+#currentely doesn't wokr
+#"npm:@anthropic-ai/claude-code" = { version = "2.1.193", npm_args = "--ignore-scripts=false" }
+#npm config set allow-scripts=@anthropic-ai/claude-code --location=user #currentely doesn't work
+#node /home/user/.local/share/mise/installs/npm-anthropic-ai-claude-code/2.1.193/lib/node_modules/@anthropic-ai/claude-code/install.cjs	#doesn't work
+#npm install -g @anthropic-ai/claude-code@latest --ignore-scripts=false #do not afraid -g flag. Because npm is managed by mise.
 
 [env]
 # Tell mise to explicitly read variables from the local .env file
 _.file = ".env"
+
+
+# Adding local binary paths to PATH so that Kate can see them
+_.path = [
+  "./node_modules/.bin",
+  "./.venv/bin"
+]
 ELECTRON_ENABLE_LOGGING="1"
 #ANTIGRAVITY_API_KEY="XXXX"
 # Your Git settings
@@ -23,12 +35,5 @@ GIT_CONFIG_KEY_0 = "url.https://${GIT_USER}:${GIT_TOKEN}@github.com/.insteadOf"
 GIT_CONFIG_VALUE_0 = "https://github.com/"
 GIT_CONFIG_KEY_1 = "url.https://${GIT_USER}:${GIT_TOKEN}@gist.github.com/.insteadOf"
 GIT_CONFIG_VALUE_1 = "https://gist.github.com/"
-
-
-# Adding local binary paths to PATH so that Kate can see them
-_.path = [
-  "./node_modules/.bin",
-  "./.venv/bin"
-]
 
 

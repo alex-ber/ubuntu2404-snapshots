@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:786a8b558f7be160c6c8c4a54f9a57274f3b4fb1491cf65146521ae77ff1dc54
+FROM ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
 
 #[HARDWARE_CONFIG]: Deterministic execution and compilation flags
 # Consolidated environment variables to reduce layer allocation overhead.
@@ -16,8 +16,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ENV CA_CERTS_VER="20240203" \
     NANO_VER="7.2-2ubuntu0.2" \
     UNZIP_VER="6.0-28ubuntu4.1" \
-    CURL_VER="8.5.0-2ubuntu10.9" \
-    WGET_VER="1.21.4-1ubuntu4.1" \
+    CURL_VER="8.5.0-2ubuntu10.11" \
+    WGET_VER="1.21.4-1ubuntu4.4" \
     XZ_UTILS_VER="5.6.1+really5.4.5-1ubuntu0.3" \
     FFMPEG_VER="7:6.1.1-3ubuntu5"
 
