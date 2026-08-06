@@ -1,6 +1,7 @@
 [tools]
 node = "22"
 uv = "0.11.33"
+python = "3.12.10"
 "npm:dockerfile-language-server-nodejs" = "0.15.0"
 "npm:pyright" = "1.1.410"
 "npm:typescript" = "5.5.2"
