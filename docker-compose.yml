@@ -64,16 +64,15 @@ services:
       - sh
       - -c
       - |
-        IMAGE=$${1:-ghcr.io/astral-sh/uv:latest}
+        IMAGE=$${1:-ghcr.io/astral-sh/uv:0.11.33}
         echo "[*] Fetching latest digest for: $$IMAGE"
-        docker pull "$$IMAGE" > /dev/null
         echo ""
         echo "Update your Dockerfile with this pointer:"
-        docker inspect --format='{{index .RepoDigests 0}}' "$$IMAGE"
+        docker buildx imagetools inspect $$IMAGE | grep Digest
       - "_" # The dummy $0 argument for sh
 
     # If you don't pass an argument when running, this will be used
-    command: ["ghcr.io/astral-sh/uv:latest"]
+    command: ["ghcr.io/astral-sh/uv:0.11.33"]
 
 
   # =========================================================
