@@ -15,6 +15,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Extract versions into environment variables for convenient future updates.
 ENV CA_CERTS_VER="20240203" \
     NANO_VER="7.2-2ubuntu0.2" \
+    GCC_VER="4:13.2.0-7ubuntu1" \
+    GPP_VER="4:13.2.0-7ubuntu1" \
+    PYTHON3DEV_VER="3.12.3-0ubuntu2.1" \
     UNZIP_VER="6.0-28ubuntu4.1" \
     CURL_VER="8.5.0-2ubuntu10.11" \
     WGET_VER="1.21.4-1ubuntu4.4" \
@@ -31,6 +34,18 @@ RUN set -ex && \
         echo ""; \
         echo "Package: nano"; \
         echo "Pin: version ${NANO_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: gcc"; \
+        echo "Pin: version ${GCC_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: g++"; \
+        echo "Pin: version ${GPP_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: python3-dev"; \
+        echo "Pin: version ${PYTHON3DEV_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: unzip"; \
@@ -59,6 +74,9 @@ RUN set -ex && \
     apt-get install -y --no-install-recommends \
         ca-certificates=${CA_CERTS_VER} \
         nano=${NANO_VER} \
+        gcc=${GCC_VER} \
+        g++=${GPP_VER} \
+        python3-dev=${PYTHON3DEV_VER} \
         unzip=${UNZIP_VER} \
         curl=${CURL_VER} \
         wget=${WGET_VER} \
@@ -69,7 +87,7 @@ RUN set -ex && \
     rm -rf /var/lib/apt/lists/* && \
     \
     # 4. Hold packages (protection against implicit dependency updates)
-    apt-mark hold ca-certificates nano unzip curl wget xz-utils ffmpeg && \
+    apt-mark hold ca-certificates nano gcc g++ python3-dev unzip curl wget xz-utils ffmpeg && \
     \
     # 5. Update certificates
     update-ca-certificates --fresh
@@ -92,9 +110,9 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2025-06-16
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-08-12
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2025-06-16
+#docker push alexberkovich/ubuntu2404-snapshot:2026-08-12
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
 
