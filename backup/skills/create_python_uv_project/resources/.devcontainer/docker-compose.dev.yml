@@ -1,8 +1,0 @@
-services:
-  app:
-    # Clear the ENTRYPOINT inherited from the Dockerfile
-    # to prevent the game from starting in the background
-    entrypoint: []
-
-    # Run a sleep process to keep the container alive for the IDE
-    command: ["sleep", "infinity"]
