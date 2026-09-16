@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
+FROM ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
 
 #[HARDWARE_CONFIG]: Deterministic execution and compilation flags
 # Consolidated environment variables to reduce layer allocation overhead.
@@ -13,16 +13,24 @@ ENV DEBIAN_FRONTEND=noninteractive \
     UV_PYTHON_INSTALL_DIR=/opt/python
 
 # Extract versions into environment variables for convenient future updates.
-ENV CA_CERTS_VER="20240203" \
+ENV CA_CERTS_VER="20260601~24.04.1" \
+    PERL_BASE_VER="5.38.2-3.2ubuntu0.6" \
     NANO_VER="7.2-2ubuntu0.2" \
     GCC_VER="4:13.2.0-7ubuntu1" \
     GPP_VER="4:13.2.0-7ubuntu1" \
-    PYTHON3DEV_VER="3.12.3-0ubuntu2.1" \
+    PYTHON3_DEV_VER="3.12.3-0ubuntu2.1" \
     UNZIP_VER="6.0-28ubuntu4.1" \
-    CURL_VER="8.5.0-2ubuntu10.11" \
-    WGET_VER="1.21.4-1ubuntu4.4" \
+    CURL_VER="8.5.0-2ubuntu10.13" \
+    WGET_VER="1.21.4-1ubuntu4.5" \
     XZ_UTILS_VER="5.6.1+really5.4.5-1ubuntu0.3" \
-    FFMPEG_VER="7:6.1.1-3ubuntu5"
+    FFMPEG_VER="7:6.1.1-3ubuntu5" \
+    TEXLIVE_XETEX_VER="2023.20240207-1" \
+    TEXLIVE_FONTS_RECOMMENDED_VER="2023.20240207-1" \
+    TEXLIVE_LANG_CYRILLIC_VER="2023.20240207-1" \
+    TEXLIVE_LATEX_EXTRA_VER="2023.20240207-1" \
+    FONTS_DEJAVU_VER="2.37-8" \
+    FONTS_FREEFONT_OTF_VER="20211204+svn4273-2"
+
 
 # [RUNTIME_ENVIRONMENT]: Deterministic APT Projection & Root Python Allocation
 RUN set -ex && \
@@ -30,6 +38,10 @@ RUN set -ex && \
     { \
         echo "Package: ca-certificates"; \
         echo "Pin: version ${CA_CERTS_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: perl-base"; \
+        echo "Pin: version ${PERL_BASE_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: nano"; \
@@ -45,7 +57,7 @@ RUN set -ex && \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: python3-dev"; \
-        echo "Pin: version ${PYTHON3DEV_VER}"; \
+        echo "Pin: version ${PYTHON3_DEV_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: unzip"; \
@@ -67,27 +79,59 @@ RUN set -ex && \
         echo "Package: ffmpeg"; \
         echo "Pin: version ${FFMPEG_VER}"; \
         echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: texlive-xetex"; \
+        echo "Pin: version ${TEXLIVE_XETEX_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: texlive-fonts-recommended"; \
+        echo "Pin: version ${TEXLIVE_FONTS_RECOMMENDED_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: texlive-lang-cyrillic"; \
+        echo "Pin: version ${TEXLIVE_LANG_CYRILLIC_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: texlive-latex-extra"; \
+        echo "Pin: version ${TEXLIVE_LATEX_EXTRA_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: fonts-dejavu"; \
+        echo "Pin: version ${FONTS_DEJAVU_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: fonts-freefont-otf"; \
+        echo "Pin: version ${FONTS_FREEFONT_OTF_VER}"; \
+        echo "Pin-Priority: 1001"; \
     } > /etc/apt/preferences.d/strict-pins && \
     \
     # 2. Update package lists and install strictly specified versions
     apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates=${CA_CERTS_VER} \
+        perl-base=${PERL_BASE_VER} \
         nano=${NANO_VER} \
         gcc=${GCC_VER} \
         g++=${GPP_VER} \
-        python3-dev=${PYTHON3DEV_VER} \
+        python3-dev=${PYTHON3_DEV_VER} \
         unzip=${UNZIP_VER} \
         curl=${CURL_VER} \
         wget=${WGET_VER} \
         xz-utils=${XZ_UTILS_VER} \
         ffmpeg=${FFMPEG_VER} \
+        texlive-xetex=${TEXLIVE_XETEX_VER} \
+        texlive-fonts-recommended=${TEXLIVE_FONTS_RECOMMENDED_VER} \
+        texlive-lang-cyrillic=${TEXLIVE_LANG_CYRILLIC_VER} \
+        texlive-latex-extra=${TEXLIVE_LATEX_EXTRA_VER} \
+        fonts-dejavu=${FONTS_DEJAVU_VER} \
+        fonts-freefont-otf=${FONTS_FREEFONT_OTF_VER} \
     && \
     # 3. Clean apt cache to reduce image size
     rm -rf /var/lib/apt/lists/* && \
     \
     # 4. Hold packages (protection against implicit dependency updates)
-    apt-mark hold ca-certificates nano gcc g++ python3-dev unzip curl wget xz-utils ffmpeg && \
+    apt-mark hold ca-certificates perl-base nano gcc g++ python3-dev unzip curl wget xz-utils ffmpeg texlive-xetex texlive-fonts-recommended  \
+                  texlive-lang-cyrillic texlive-latex-extra fonts-dejavu fonts-freefont-otf && \
     \
     # 5. Update certificates
     update-ca-certificates --fresh
@@ -110,12 +154,12 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-08-12
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-09-16
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2026-08-12
+#docker push alexberkovich/ubuntu2404-snapshot:2026-09-16
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
-
+##docker system prune --all
 # Delete all containers
 # docker rm -f $(docker ps -a -q)
 

@@ -2,6 +2,7 @@
 node = "22"
 uv = "0.11.33"
 python = "3.12.10"
+pandoc = "3.11"
 "npm:dockerfile-language-server-nodejs" = "0.15.0"
 "npm:pyright" = "1.1.410"
 "npm:typescript" = "5.5.2"
@@ -23,10 +24,11 @@ _.file = ".env"
 
 
 # Adding local binary paths to PATH so that Kate can see them
-_.path = [
-  "./node_modules/.bin",
-  "./.venv/bin"
-]
+#_.path = [
+#  "./node_modules/.bin",
+#  "./.venv/bin"
+#]
+
 ELECTRON_ENABLE_LOGGING="1"
 #ANTIGRAVITY_API_KEY="XXXX"
 # Your Git settings

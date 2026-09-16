@@ -90,7 +90,7 @@ services:
   get-pkg-version:
     # We use the floating tag here because the goal is to discover what's
     # currently available before locking the SHA in the Dockerfile.
-    image: ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
+    image: ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
     #image: ubuntu:24.04
 
     profiles:
@@ -164,7 +164,7 @@ services:
   # Default: docker compose run --rm backup
   # For debugging: docker compose run --rm --entrypoint bash backup
   backup:
-    image: ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
+    image: ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
     working_dir: /app
 
     # HARDWARE BRIDGE: Identity mapping
