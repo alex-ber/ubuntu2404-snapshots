@@ -11,7 +11,7 @@ pandoc = "3.11"
 "npm:yaml-language-server" = "1.23.0" 
 "npm:eslint" = "10.5.0"
 #ruff = "0.15.17"
-"github:google-antigravity/antigravity-cli" = "1.0.9"
+#"github:google-antigravity/antigravity-cli" = "1.0.9"
 #currentely doesn't wokr
 #"npm:@anthropic-ai/claude-code" = { version = "2.1.193", npm_args = "--ignore-scripts=false" }
 #npm config set allow-scripts=@anthropic-ai/claude-code --location=user #currentely doesn't work
@@ -33,10 +33,11 @@ ELECTRON_ENABLE_LOGGING="1"
 #ANTIGRAVITY_API_KEY="XXXX"
 # Your Git settings
 #GIT_TOKEN = "ghp_XXXX"
-GIT_CONFIG_COUNT = "2"
+GIT_CONFIG_COUNT = "3"
 GIT_CONFIG_KEY_0 = "url.https://${GIT_USER}:${GIT_TOKEN}@github.com/.insteadOf"
 GIT_CONFIG_VALUE_0 = "https://github.com/"
 GIT_CONFIG_KEY_1 = "url.https://${GIT_USER}:${GIT_TOKEN}@gist.github.com/.insteadOf"
 GIT_CONFIG_VALUE_1 = "https://gist.github.com/"
-
+GIT_CONFIG_KEY_2 = "url.https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/.insteadOf"
+GIT_CONFIG_VALUE_2 = "https://gitlab.com/"
 
