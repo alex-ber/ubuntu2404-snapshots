@@ -59,7 +59,7 @@ services:
     profiles:
       - tools
     # Elegantly intercept arguments. $$ escapes the dollar sign from Compose,
-    # so that bash inside the container receives the actual $1 and and $IMAGE
+    # so that bash inside the container receives the actual $1 and $IMAGE
     entrypoint:
       - sh
       - -c
@@ -90,7 +90,7 @@ services:
   get-pkg-version:
     # We use the floating tag here because the goal is to discover what's
     # currently available before locking the SHA in the Dockerfile.
-    image: ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
+    image: ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
     #image: ubuntu:24.04
 
     profiles:
@@ -164,7 +164,7 @@ services:
   # Default: docker compose run --rm backup
   # For debugging: docker compose run --rm --entrypoint bash backup
   backup:
-    image: ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
+    image: ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
     working_dir: /app
 
     # HARDWARE BRIDGE: Identity mapping

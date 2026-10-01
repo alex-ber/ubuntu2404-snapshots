@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:69cecf4bbf72d2d44a9eef1b71fb98c7fb973d78af11399deccef19beb008ad9
+FROM ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
 
 #[HARDWARE_CONFIG]: Deterministic execution and compilation flags
 # Consolidated environment variables to reduce layer allocation overhead.
@@ -15,12 +15,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Extract versions into environment variables for convenient future updates.
 ENV CA_CERTS_VER="20260601~24.04.1" \
     PERL_BASE_VER="5.38.2-3.2ubuntu0.6" \
+    LIBSSL3T64_BASE_VER="3.0.13-0ubuntu3.16" \
     NANO_VER="7.2-2ubuntu0.2" \
     GCC_VER="4:13.2.0-7ubuntu1" \
     GPP_VER="4:13.2.0-7ubuntu1" \
     PYTHON3_DEV_VER="3.12.3-0ubuntu2.1" \
     UNZIP_VER="6.0-28ubuntu4.1" \
-    CURL_VER="8.5.0-2ubuntu10.13" \
+    CURL_VER="8.5.0-2ubuntu10.15" \
     WGET_VER="1.21.4-1ubuntu4.5" \
     XZ_UTILS_VER="5.6.1+really5.4.5-1ubuntu0.3" \
     FFMPEG_VER="7:6.1.1-3ubuntu5" \
@@ -29,7 +30,8 @@ ENV CA_CERTS_VER="20260601~24.04.1" \
     TEXLIVE_LANG_CYRILLIC_VER="2023.20240207-1" \
     TEXLIVE_LATEX_EXTRA_VER="2023.20240207-1" \
     FONTS_DEJAVU_VER="2.37-8" \
-    FONTS_FREEFONT_OTF_VER="20211204+svn4273-2"
+    FONTS_FREEFONT_OTF_VER="20211204+svn4273-2" \
+    LMODERN_VER="2.005-1"
 
 
 # [RUNTIME_ENVIRONMENT]: Deterministic APT Projection & Root Python Allocation
@@ -42,6 +44,9 @@ RUN set -ex && \
         echo ""; \
         echo "Package: perl-base"; \
         echo "Pin: version ${PERL_BASE_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo "Package: libssl3t64"; \
+        echo "Pin: version ${LIBSSL3T64_BASE_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: nano"; \
@@ -103,6 +108,9 @@ RUN set -ex && \
         echo "Package: fonts-freefont-otf"; \
         echo "Pin: version ${FONTS_FREEFONT_OTF_VER}"; \
         echo "Pin-Priority: 1001"; \
+        echo "Package: lmodern"; \
+        echo "Pin: version ${LMODERN_VER}"; \
+        echo "Pin-Priority: 1001"; \
     } > /etc/apt/preferences.d/strict-pins && \
     \
     # 2. Update package lists and install strictly specified versions
@@ -110,6 +118,7 @@ RUN set -ex && \
     apt-get install -y --no-install-recommends \
         ca-certificates=${CA_CERTS_VER} \
         perl-base=${PERL_BASE_VER} \
+        libssl3t64=${LIBSSL3T64_BASE_VER} \
         nano=${NANO_VER} \
         gcc=${GCC_VER} \
         g++=${GPP_VER} \
@@ -125,13 +134,14 @@ RUN set -ex && \
         texlive-latex-extra=${TEXLIVE_LATEX_EXTRA_VER} \
         fonts-dejavu=${FONTS_DEJAVU_VER} \
         fonts-freefont-otf=${FONTS_FREEFONT_OTF_VER} \
+        lmodern=${LMODERN_VER} \
     && \
     # 3. Clean apt cache to reduce image size
     rm -rf /var/lib/apt/lists/* && \
     \
     # 4. Hold packages (protection against implicit dependency updates)
-    apt-mark hold ca-certificates perl-base nano gcc g++ python3-dev unzip curl wget xz-utils ffmpeg texlive-xetex texlive-fonts-recommended  \
-                  texlive-lang-cyrillic texlive-latex-extra fonts-dejavu fonts-freefont-otf && \
+    apt-mark hold ca-certificates perl-base libssl3t64 nano gcc g++ python3-dev unzip curl wget xz-utils ffmpeg texlive-xetex texlive-fonts-recommended  \
+                  texlive-lang-cyrillic texlive-latex-extra fonts-dejavu fonts-freefont-otf lmodern && \
     \
     # 5. Update certificates
     update-ca-certificates --fresh
@@ -154,9 +164,9 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-09-16
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-01
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2026-09-16
+#docker push alexberkovich/ubuntu2404-snapshot:2026-10-01
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
 ##docker system prune --all

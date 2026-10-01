@@ -5,11 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-10-01]
+
+### Change
+
+Base Ubuntu 24.04 image to the latest. Changing pinned versions of *curl* 
+to the latest. Added *libssl3t64* as explicit pinned dependency.
+
+### Added
+
+lmodern - required for *texlive-xetex*, otherwise it crashes.
+
 ## [2026-09-16]
 
 ### Change
 
-Base Ubuntu 24.04 image to the latest.
+Base Ubuntu 24.04 image to the latest. Changing pinned versions to the latest. 
+Added *perl-base* as explicit pinned dependency.
 
 ### Added
 
