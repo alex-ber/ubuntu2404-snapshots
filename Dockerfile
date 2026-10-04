@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
+FROM ubuntu@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55
 
 #[HARDWARE_CONFIG]: Deterministic execution and compilation flags
 # Consolidated environment variables to reduce layer allocation overhead.
@@ -164,9 +164,9 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-01
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-05
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2026-10-01
+#docker push alexberkovich/ubuntu2404-snapshot:2026-10-05
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
 ##docker system prune --all
