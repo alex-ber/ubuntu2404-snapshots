@@ -65,3 +65,4 @@ exec ~/.local/bin/mise exec -- "$APP_EXEC" "$@"
 
 #
 #DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+

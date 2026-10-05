@@ -196,7 +196,6 @@ services:
         cp /host_home/.config/mise/config.toml ./backup/
         cp /parent/.mise.toml ./backup/
         cp /parent/mise-app-launcher.sh ./backup/
-        cp /parent/colibri.txt ./backup/
 
         echo "[+] Backup completed successfully!"
 
