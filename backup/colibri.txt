@@ -1,0 +1,132 @@
+In https://github.com/JustVugg/colibri
+mise.toml
+
+[tools]
+# --- Core Python Tooling ---
+python = "3.14.7"
+#"pypi:huggingface-hub" = "2.1.1" # extras [cli] doesn't need from 1.x
+#"pypi:numpy" = "2.5.3"
+
+# --- Editor / Language Server Tooling (Required by LSPs) ---
+node = "22"
+"npm:pyright" = "1.1.410"                           # Python LSP
+"npm:dockerfile-language-server-nodejs" = "0.15.0"  # Dockerfile LSP
+"npm:yaml-language-server" = "1.23.0"               # YAML / docker-compose LSP
+"npm:vscode-langservers-extracted" = "4.10.0"       # JSON/Markdown LSPs
+
+[env]
+
+
+# Add local binary paths to PATH so that editors (like Kate) can see them
+_.path = [
+  "./.venv/bin"
+]
+
+
+mise prune
+mise install
+./c/setup.sh
+make -C c all ARCH="${ARCH:-native}"
+make -C c check
+mkdir -p /work/ABhf_modles
+hf download deepseek-ai/DeepSeek-V4.1-Flash --local-dir /work/ABhf_model
+
+
+./c/coli build           # already done
+./c/coli convert --model /work/ABhf_models/glm52_i4     # int4 model generation (takes hours)
+./c/coli info  --model /work/ABhf_models/glm52_i4
+./c/coli chat  --model /work/ABhf_models/glm52_i4 --ram <GB>
+
+./c/coli chat --model /work/ABhf_models/glm52_i4
+# Server-side
+./c/coli serve --model /work/ABhf_models/glm52_i4 --host 0.0.0.0 --port 8060
+# Clien-side
+http://SERVER_ID:8060
+#Coli Web=coli serve + automatic browser openning
+./c/coli web --model /work/ABhf_models/glm52_i4 --port 8060
+
+
+
+./c/coli chat  --model /work/ABhf_models/glm52_i4 --ram <GB>
+
+## **`--ram` — RAM budget for the expert cache, not the entire model.**
+**More `--ram` → more cache hits → faster.** But with diminishing returns.
+**Does not affect the output** — only performance.
+**For GLM-5.2 with 65 GB RAM:** 24 is comfortable, 40 is the maximum, 4 is the minimum.
+**Without `--ram`** — the engine decides automatically (usually reasonably).
+**Practical approach:** start with 24, check `free -h`, and increase to 32–40 if you have enough headroom.
+**For Qwen3.6** (`~20 GB`) — `--ram` is less critical since almost the entire model fits in memory.
+**Recommendation:** start with:
+./c/coli chat --model /nvme/glm52_i4 --ram 24
+Monitor `free -h` in another terminal. If you have plenty of free RAM, increase it. If the system starts slowing down, reduce it.
+
+
+## TL;DR
+
+1. **`./c/coli web`** = `./c/coli serve` + automatically opening the browser. `./c/coli web --no-browser = ./c/coli serve`.
+2. **Default port — 8000.** Change it with `--port`..
+3. **Default address — `127.0.0.1:8000`.** For network access: `--host 0.0.0.0` + `--api-key`.
+4. **Web UI:** `http://127.0.0.1:8000` (or `http://IP:8000`).
+5. **API:** `http://127.0.0.1:8000/v1/...` — OpenAI-compatible.
+6. **Brio:** `http://127.0.0.1:8000/v1/brio` — a dedicated endpoint.
+7. **For LangChain:** `base_url="http://127.0.0.1:8000/v1"`, `api_key="dummy"`.
+
+
+
+++++
+
+Your weights are in FP8 or BF16. They need to be compressed. Methods:
+
+* int8: 1 byte per number. The scale is usually applied per row/group.
+
+* int4: half a byte. More coarse, but 2× smaller.
+
+* MXFP4 / FP4 / fp4: a 4-bit floating-point format (not int), with a shared exponent for each group of 32 elements. An OCP standard, used in Kimi K3 and DeepSeek.
+
++++
+
+“gs64” and “per-row int4” — what are they?
+
+These are two different quantization methods:
+
+* per-row: one shared scale is calculated for each row of the weight matrix. It is simpler, but more coarse: a single row can contain values with very different magnitudes, so one shared scale may not work well for all of them.
+
+* gs64 (group size 64, “group-wise scaling” with a group size of 64): the matrix is split into groups of 64 elements, with a separate scale for each group. It is more accurate because the scale is adjusted locally.
+
+Benchmarks showed that gs64 provides roughly 9 percentage points better quality than per-row. In other words, the model loses less capability due to quantization.
+
+gs64 vs. per-row: more accurate.
+
++++
+
+“ls -l <model>/out-mtp-* — int8 (correct) is 3527131672 / 5366238584 / 1065950496 as three files”
+
+This is a verification step: before running the model, check the model directory and look at the file sizes of the MTP head. If they match the specified numbers (in bytes), it means you were given the correct int8 version. If the sizes are different (2× smaller), someone accidentally converted it to int4, and speculative decoding will not work.
+
+“Three files” — because the MTP head can be split into three shards. “Or one file, out-mtp-00000.safetensors, with a size of 9959321520 bytes” — this is an alternative packaging format: the same data, but stored as a single file.
+
++++
+
+`COLI_EXACT_VERIFY=1` enables exact attention verification for deterministic IEEE 754 behavior.
+
+In the default mode, speculative verification accumulates MLA-absorb scores and context dot products in floating point. Because FP addition is non-associative, different operation orders can produce different ULPs, potentially resolving near-ties differently across hosts.
+
+With `COLI_EXACT_VERIFY=1`, these calculations use integer accumulation with a single final rounding step. This makes near-tie resolution deterministic across hosts.
+
+Cost: about 0.6× tok/s on `tiny-oracle` (~1.7× slower). The dot product itself is roughly 5–7× slower than the float path.
+
+Think of it as Kahan summation vs. naive summation: more reproducible/precise, but slower.
+
+Limitations:
+
+* Quantized KV caches (`tq1`, `TQ`, `int8 KV`) still use the float path for context dot products, so exactness is not guaranteed there.
+* Near-tie switching has not yet been empirically observed on GLM-5.2 at `n=64`; the mechanism is expected to work, but large-model validation is still pending.
+
+Default: off (`=0`), opt-in.
+
+Use it when you need strict cross-host/backend determinism or when debugging a reproducibility issue. For normal text generation, leave it disabled.
+
+
+COLI_EXACT_VERIFY=1 ./c/coli chat --model ...
+
+
