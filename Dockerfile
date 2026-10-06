@@ -21,6 +21,7 @@ ENV CA_CERTS_VER="20260601~24.04.1" \
     GPP_VER="4:13.2.0-7ubuntu1" \
     PYTHON3_DEV_VER="3.12.3-0ubuntu2.1" \
     UNZIP_VER="6.0-28ubuntu4.1" \
+    TAR_VER="1.35+dfsg-3ubuntu0.4" \
     CURL_VER="8.5.0-2ubuntu10.15" \
     WGET_VER="1.21.4-1ubuntu4.5" \
     XZ_UTILS_VER="5.6.1+really5.4.5-1ubuntu0.3" \
@@ -67,6 +68,10 @@ RUN set -ex && \
         echo ""; \
         echo "Package: unzip"; \
         echo "Pin: version ${UNZIP_VER}"; \
+        echo "Pin-Priority: 1001"; \
+        echo ""; \
+        echo "Package: tar"; \
+        echo "Pin: version ${TAR_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: curl"; \
@@ -164,9 +169,9 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-05
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-06
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2026-10-05
+#docker push alexberkovich/ubuntu2404-snapshot:2026-10-06
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
 ##docker system prune --all
