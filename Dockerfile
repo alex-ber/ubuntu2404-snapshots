@@ -1,4 +1,4 @@
-FROM ubuntu@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55
+FROM ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac
 
 #[HARDWARE_CONFIG]: Deterministic execution and compilation flags
 # Consolidated environment variables to reduce layer allocation overhead.
@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     UV_PYTHON_INSTALL_DIR=/opt/python
 
 # Extract versions into environment variables for convenient future updates.
-ENV CA_CERTS_VER="20260601~24.04.1" \
+ENV CA_CERTS_VER="20260816ubuntu0.24.04.1" \
     PERL_BASE_VER="5.38.2-3.2ubuntu0.6" \
     LIBSSL3T64_BASE_VER="3.0.13-0ubuntu3.16" \
     NANO_VER="7.2-2ubuntu0.2" \
@@ -21,10 +21,9 @@ ENV CA_CERTS_VER="20260601~24.04.1" \
     GPP_VER="4:13.2.0-7ubuntu1" \
     PYTHON3_DEV_VER="3.12.3-0ubuntu2.1" \
     UNZIP_VER="6.0-28ubuntu4.1" \
-    TAR_VER="1.35+dfsg-3ubuntu0.4" \
-    CURL_VER="8.5.0-2ubuntu10.15" \
+    CURL_VER="8.5.0-2ubuntu10.16" \
     WGET_VER="1.21.4-1ubuntu4.5" \
-    XZ_UTILS_VER="5.6.1+really5.4.5-1ubuntu0.3" \
+    XZ_UTILS_VER="5.6.1+really5.4.5-1" \
     FFMPEG_VER="7:6.1.1-3ubuntu5" \
     TEXLIVE_XETEX_VER="2023.20240207-1" \
     TEXLIVE_FONTS_RECOMMENDED_VER="2023.20240207-1" \
@@ -46,6 +45,7 @@ RUN set -ex && \
         echo "Package: perl-base"; \
         echo "Pin: version ${PERL_BASE_VER}"; \
         echo "Pin-Priority: 1001"; \
+        echo ""; \
         echo "Package: libssl3t64"; \
         echo "Pin: version ${LIBSSL3T64_BASE_VER}"; \
         echo "Pin-Priority: 1001"; \
@@ -68,10 +68,6 @@ RUN set -ex && \
         echo ""; \
         echo "Package: unzip"; \
         echo "Pin: version ${UNZIP_VER}"; \
-        echo "Pin-Priority: 1001"; \
-        echo ""; \
-        echo "Package: tar"; \
-        echo "Pin: version ${TAR_VER}"; \
         echo "Pin-Priority: 1001"; \
         echo ""; \
         echo "Package: curl"; \
@@ -113,6 +109,7 @@ RUN set -ex && \
         echo "Package: fonts-freefont-otf"; \
         echo "Pin: version ${FONTS_FREEFONT_OTF_VER}"; \
         echo "Pin-Priority: 1001"; \
+        echo ""; \
         echo "Package: lmodern"; \
         echo "Pin: version ${LMODERN_VER}"; \
         echo "Pin-Priority: 1001"; \
@@ -169,9 +166,9 @@ CMD ["/bin/bash"]
 
 
 
-#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-06
+#docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:2026-10-26
 #docker tag ubuntu-snapshot-i alexberkovich/ubuntu2404-snapshot:latest
-#docker push alexberkovich/ubuntu2404-snapshot:2026-10-06
+#docker push alexberkovich/ubuntu2404-snapshot:2026-10-26
 #docker push alexberkovich/ubuntu2404-snapshot:latest
 
 ##docker system prune --all

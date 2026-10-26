@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026-10-26]
+
+### Change
+
+- Base Ubuntu 24.04 image to the latest. 
+- Removed `tar` from pinning.
+- Updated to the latest versions of `ca-certificates` and `curl` are 
+pathed from the latest CVE's.
+See `https://discuss.python.org/t/information-for-python-users-regarding-emudhra-emsign-ca-certificate-security-incident/109576` for mor details.
+- Updated to the latest versions XZ_UTILS_VER.
+- Fixed error in pinning in block preferences.d (not critical bug).
+
+
 ## [2026-10-06]
 
 ### Added
